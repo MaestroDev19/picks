@@ -42,7 +42,7 @@ export default async function MovieInfo({
             title="YouTube video player"
             src={`https://www.youtube.com/embed/${
               trailer.key || trailer
-            }?si=FGXLUKs0JdCHVD7l&autoplay=0`}
+            }?si=FGXLUKs0JdCHVD7l&autoplay=1`}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
