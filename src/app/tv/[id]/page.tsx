@@ -4,11 +4,7 @@ import { icons } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function MovieInfo({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function TvInfo({ params }: { params: { id: string } }) {
   const key = process.env.API_KEY;
   const path = "https://image.tmdb.org/t/p/original";
   const videoRes = await fetch(
@@ -84,7 +80,7 @@ export default async function MovieInfo({
                   </span>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 md:gap-x-[40px]">
+              <div className="grid md:grid-cols-2 md:gap-x-[40px] gap-y-[40px] md:gap-y-[40px]">
                 <div className="space-y-1">
                   <h3 className="lg:text-base md:text-sm text-xs">Type</h3>
                   <p className="lg:text-lg md:text-base text-sm font-medium">
@@ -98,7 +94,7 @@ export default async function MovieInfo({
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 md:gap-x-[40px]">
+              <div className="grid md:grid-cols-2 gap-y-[40px] md:gap-y-[40px] md:gap-x-[40px]">
                 <div className="space-y-1">
                   <h3 className="lg:text-base md:text-sm text-xs">
                     First air date
@@ -116,7 +112,7 @@ export default async function MovieInfo({
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 md:gap-x-[40px]">
+              <div className="grid md:grid-cols-2 gap-y-[40px] md:gap-y-[40px] md:gap-x-[40px]">
                 <div className="space-y-1">
                   <h3 className="lg:text-base md:text-sm text-xs">
                     No. of Seasons
@@ -134,7 +130,7 @@ export default async function MovieInfo({
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 md:gap-x-[40px]">
+              <div className="grid md:grid-cols-2 gap-y-[40px] md:gap-y-[40px] md:gap-x-[40px]">
                 <div className="space-y-2">
                   <h3 className="lg:text-base md:text-sm text-xs">Genres</h3>
                   <div className="flex flex-col space-y-1">

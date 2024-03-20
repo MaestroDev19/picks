@@ -82,7 +82,7 @@ export default async function MovieInfo({
                   </span>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 md:gap-x-[40px]">
+              <div className="grid md:grid-cols-2 md:gap-x-[40px] gap-y-[40px] md:gap-y-[40px]">
                 <div className="space-y-2">
                   <h3 className="lg:text-base md:text-sm text-xs">Status</h3>
                   <p className="lg:text-lg md:text-base text-sm font-medium">
@@ -98,14 +98,8 @@ export default async function MovieInfo({
                   </p>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 md:gap-x-[40px]">
+              <div className="grid md:grid-cols-2 md:gap-x-[40px] gap-y-[40px] md:gap-y-[40px]">
                 {" "}
-                <div className="space-y-2">
-                  <h3 className="lg:text-base md:text-sm text-xs">Run time</h3>
-                  <p className="lg:text-lg md:text-base text-sm font-medium">
-                    {details.runtime} min
-                  </p>
-                </div>
                 <div className="space-y-2">
                   <h3 className="lg:text-base md:text-sm text-xs">Genres</h3>
                   <div className="flex flex-col space-y-1">
@@ -117,6 +111,12 @@ export default async function MovieInfo({
                       </div>
                     ))}
                   </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="lg:text-base md:text-sm text-xs">Run time</h3>
+                  <p className="lg:text-lg md:text-base text-sm font-medium">
+                    {details.runtime} min
+                  </p>
                 </div>
                 <div className=" space-y-2">
                   <h3 className="lg:text-base md:text-sm text-xs">Website</h3>
