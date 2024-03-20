@@ -29,10 +29,6 @@ export default function Slider({ content }: { content: Trending[] }) {
       content
         .filter(
           (trending) =>
-            trending.media_type == "movie" || trending.media_type == "tv"
-        )
-        .filter(
-          (trending) =>
             trending.overview !== "" &&
             trending.tagline !== "" &&
             trending.poster_path !== "" &&

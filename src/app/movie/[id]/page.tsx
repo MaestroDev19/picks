@@ -2,6 +2,15 @@ import { Movies, Video } from "@/schema";
 import Link from "next/link";
 import Image from "next/image";
 import { icons } from "lucide-react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
 export default async function MovieInfo({
   params,
 }: {
@@ -18,10 +27,10 @@ export default async function MovieInfo({
     `https://api.themoviedb.org/3/movie/${params.id}?api_key=${key}`
   );
   const details = (await response.json()) as Movies;
-  console.log(details);
+
   const trailer =
     videos.filter((video) => video.type == "Trailer")[0] || "dQw4w9WgXcQ";
-  console.log(trailer);
+
   function convertToOneDecimal(trendingVoteAverage: number): number {
     const decimalPart = trendingVoteAverage.toString().split(".")[1];
     if (decimalPart && decimalPart.length > 1) {
@@ -32,7 +41,7 @@ export default async function MovieInfo({
   }
   return (
     <>
-      <section className="pb-[120px]">
+      <section className="pb-[100px]">
         <div className="w-full h-[600px] mx-auto flex items-center aspect-auto relative">
           <iframe
             width="560"
@@ -48,9 +57,27 @@ export default async function MovieInfo({
           />
         </div>
         <div className="mt-[80px] px-[25px] md:px-[50px] lg:px-[100px] space-y-10">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold">
-            {details.title}
-          </h1>
+          <div className="space-y-5">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink>
+                    <Link href="/">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink>
+                    <Link href="/movie">Movie</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold">
+              {details.title}
+            </h1>
+          </div>
+
           <div className="grid md:grid-cols-2 md:gap-x-[40px] gap-y-[40px]">
             <div className="lg:w-2/3 h-fit relative">
               <Image

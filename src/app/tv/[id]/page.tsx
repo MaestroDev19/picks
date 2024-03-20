@@ -16,10 +16,10 @@ export default async function TvInfo({ params }: { params: { id: string } }) {
     `https://api.themoviedb.org/3/tv/${params.id}?api_key=${key}`
   );
   const details = (await response.json()) as Tv;
-  console.log(videos);
+
   const trailer =
     videos.filter((video) => video.type == "Trailer")[0] || "dQw4w9WgXcQ";
-  console.log(details.homepage);
+
   function convertToOneDecimal(trendingVoteAverage: number): number {
     const decimalPart = trendingVoteAverage.toString().split(".")[1];
     if (decimalPart && decimalPart.length > 1) {
