@@ -62,7 +62,7 @@ export async function air(page: number = 1) {
 
 export async function trending(page: number = 1): Promise<Trending[]> {
   const response = await fetch(
-    `${url}/trending/all/week?api_key=${key}&page=${page}`
+    `${url}/trending/all/day?api_key=${key}&page=${page}`
   );
   const data = await response.json();
   return data.results as Trending[];
