@@ -1,9 +1,15 @@
-import { trending } from "@/lib/data";
 import { Tv, Video } from "@/schema";
 import { icons } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 export default async function TvInfo({ params }: { params: { id: string } }) {
   const key = process.env.API_KEY;
   const path = "https://image.tmdb.org/t/p/original";
@@ -38,7 +44,7 @@ export default async function TvInfo({ params }: { params: { id: string } }) {
             title="YouTube video player"
             src={`https://www.youtube.com/embed/${
               trailer.key || trailer
-            }?si=FGXLUKs0JdCHVD7l&autoplay=1`}
+            }?si=FGXLUKs0JdCHVD7l&autoplay=0`}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
@@ -46,9 +52,26 @@ export default async function TvInfo({ params }: { params: { id: string } }) {
           />
         </div>
         <div className="mt-[80px] px-[25px] md:px-[50px] lg:px-[100px] space-y-10">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold">
-            {details.name}
-          </h1>
+          <div className="space-y-5">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink>
+                    <Link href="/">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink>
+                    <Link href="/tv">Tv</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold">
+              {details.name}
+            </h1>
+          </div>
           <div className="grid md:grid-cols-2 md:gap-x-[40px] gap-y-[40px]">
             <div className="lg:w-2/3 h-fit relative">
               <Image

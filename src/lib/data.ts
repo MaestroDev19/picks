@@ -67,3 +67,27 @@ export async function trending(page: number = 1): Promise<Trending[]> {
   const data = await response.json();
   return data.results as Trending[];
 }
+
+export async function trendingMovie(page: number = 1): Promise<Trending[]> {
+  const response = await fetch(
+    `${url}/trending/movie/day?api_key=${key}&page=${page}`
+  );
+  const data = await response.json();
+  return data.results as Trending[];
+}
+
+export async function trendingTv(page: number = 1): Promise<Trending[]> {
+  const response = await fetch(
+    `${url}/trending/tv/day?api_key=${key}&page=${page}`
+  );
+  const data = await response.json();
+  return data.results as Trending[];
+}
+
+export async function getAllTrending(page: number = 1): Promise<Trending[][]> {
+  const allTrending = await trending(page);
+  const movieTrending = await trendingMovie(page);
+  const tvTrending = await trendingTv(page);
+
+  return [allTrending, movieTrending, tvTrending];
+}

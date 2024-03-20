@@ -1,12 +1,11 @@
 import Content from "@/components/content";
 import Slider from "@/components/heroSlider";
-import { discoverMovie, trending } from "@/lib/data";
+import { discoverMovie, getAllTrending } from "@/lib/data";
 import Image from "next/image";
 
 export default async function Home() {
-  const trendingMedia = await trending();
-  console.log(trendingMedia);
-
+  const [trendingMedia, movieTrending, tvTrending] = await getAllTrending();
+  console.log;
   return (
     <main className="min-h-screen">
       <Slider content={trendingMedia} />
@@ -15,7 +14,11 @@ export default async function Home() {
           <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl">
             Trending
           </h2>
-          <Content content={trendingMedia} />
+          <Content
+            content={trendingMedia}
+            movieContent={movieTrending}
+            tvContent={tvTrending}
+          />
         </div>
       </section>
     </main>
