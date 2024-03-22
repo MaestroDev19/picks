@@ -1,11 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
 import Content from "@/components/content";
 import Slider from "@/components/heroSlider";
-import { discoverMovie, getAllTrending } from "@/lib/data";
+import Top from "@/components/rated";
+
+import { discoverMovie, getAllTrending, topRated } from "@/lib/data";
 import Image from "next/image";
 
 export default async function Home() {
   const [trendingMedia, movieTrending, tvTrending] = await getAllTrending();
-  console.log;
+  const [topMovies, topTv] = await topRated();
+
   return (
     <main className="min-h-screen">
       <Slider content={trendingMedia} />
@@ -19,6 +23,12 @@ export default async function Home() {
             movieContent={movieTrending}
             tvContent={tvTrending}
           />
+        </div>
+        <div className="space-y-5">
+          <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl">
+            Admin's Picks
+          </h2>
+          <Top movies={topMovies} tvs={topTv} />
         </div>
       </section>
     </main>

@@ -12,6 +12,7 @@ export interface Movies {
   runtime: number;
   release_date: string;
   homepage: string;
+  first_air_date_year: number;
   genres: { id: number; name: string }[];
 }
 export interface Tv {
@@ -31,7 +32,9 @@ export interface Tv {
   number_of_seasons: number;
   number_of_episodes: number;
   first_air_date: string;
+  first_air_date_year: number;
   last_air_date: string;
+
   homepage: string;
 }
 

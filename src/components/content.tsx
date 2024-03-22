@@ -51,7 +51,13 @@ export default function Content({
     () =>
       tvContent
         .filter((trending) => trending.media_type === "tv")
-
+        .filter(
+          (trending) =>
+            trending.overview !== "" &&
+            trending.tagline !== "" &&
+            trending.poster_path !== "" &&
+            trending.backdrop_path !== ""
+        )
         .sort((a, b) => b.popularity - a.popularity)
         .sort((a, b) => b.vote_average - a.vote_average),
     [tvContent]
