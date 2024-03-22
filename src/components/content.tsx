@@ -1,3 +1,4 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Trending } from "@/schema";
 import Link from "next/link";
@@ -74,25 +75,23 @@ export default function Content({
       <TabsContent value="all">
         <div className="flex w-full">
           <div className="grid gap-[20px] lg:grid-cols-4 md:grid-cols-2 mt-5 w-full ">
-            <Suspense fallback={<Skeleton />}>
-              {all.map((trending) => (
-                <Link
-                  key={trending.id}
-                  href={`/${trending.media_type}/${trending.id} `}
-                >
-                  <Image
-                    src={`${path}${trending.poster_path}`}
-                    height={4000}
-                    width={300}
-                    alt={trending.name || trending.title}
-                    className="w-full"
-                  />
-                  <h3 className="py-5 line-clamp-1 font-medium">
-                    {trending.name || trending.title}
-                  </h3>
-                </Link>
-              ))}
-            </Suspense>
+            {all.map((trending) => (
+              <Link
+                key={trending.id}
+                href={`/${trending.media_type}/${trending.id} `}
+              >
+                <Image
+                  src={`${path}${trending.poster_path}`}
+                  height={4000}
+                  width={300}
+                  alt={trending.name || trending.title}
+                  className="w-full"
+                />
+                <h3 className="py-5 line-clamp-1 font-medium">
+                  {trending.name || trending.title}
+                </h3>
+              </Link>
+            ))}
           </div>
         </div>
       </TabsContent>

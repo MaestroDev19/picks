@@ -50,7 +50,6 @@ export default async function MovieInfo({
             src={`https://www.youtube.com/embed/${
               trailer.key || trailer
             }?si=FGXLUKs0JdCHVD7l&autoplay=0`}
-            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className="w-full h-full object-cover"
@@ -61,13 +60,13 @@ export default async function MovieInfo({
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
+                  <BreadcrumbLink asChild>
                     <Link href="/">Home</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
+                  <BreadcrumbLink asChild>
                     <Link href="/movie">Movie</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -87,7 +86,6 @@ export default async function MovieInfo({
                 alt={details.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-zinc-950 opacity-35"></div>
             </div>
             <div className="space-y-4">
               <h2 className="lg:text-3xl md:text-2xl text-xl font-medium ">

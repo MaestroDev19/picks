@@ -56,13 +56,13 @@ export default async function TvInfo({ params }: { params: { id: string } }) {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
+                  <BreadcrumbLink asChild>
                     <Link href="/">Home</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink>
+                  <BreadcrumbLink asChild>
                     <Link href="/tv">Tv</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>

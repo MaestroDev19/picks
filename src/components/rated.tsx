@@ -1,3 +1,4 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Movies, Tv } from "@/schema";
 import Link from "next/link";
@@ -44,22 +45,20 @@ export default function Top({ movies, tvs }: { movies: Movies[]; tvs: Tv[] }) {
 
       <TabsContent value="movie">
         <div className="grid gap-[20px] lg:grid-cols-4 md:grid-cols-2 mt-5 w-full ">
-          <Suspense fallback={<Skeleton />}>
-            {movie.map((trending) => (
-              <Link key={trending.id} href={`/movie/${trending.id} `}>
-                <Image
-                  src={`${path}${trending.poster_path}`}
-                  height={4000}
-                  width={300}
-                  alt={trending.title}
-                  className="w-full"
-                />
-                <h3 className="py-5 line-clamp-2 font-medium">
-                  {trending.title}
-                </h3>
-              </Link>
-            ))}
-          </Suspense>
+          {movie.map((trending) => (
+            <Link key={trending.id} href={`/movie/${trending.id} `}>
+              <Image
+                src={`${path}${trending.poster_path}`}
+                height={4000}
+                width={300}
+                alt={trending.title}
+                className="w-full"
+              />
+              <h3 className="py-5 line-clamp-2 font-medium">
+                {trending.title}
+              </h3>
+            </Link>
+          ))}
         </div>
       </TabsContent>
       <TabsContent value="tv">
