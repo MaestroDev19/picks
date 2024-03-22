@@ -10,6 +10,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 export default async function TvInfo({ params }: { params: { id: string } }) {
   const key = process.env.API_KEY;
   const path = "https://image.tmdb.org/t/p/original";
@@ -74,14 +76,15 @@ export default async function TvInfo({ params }: { params: { id: string } }) {
           </div>
           <div className="grid md:grid-cols-2 md:gap-x-[40px] gap-y-[40px]">
             <div className="lg:w-2/3 h-fit relative">
-              <Image
-                src={`${path}${details.poster_path}`}
-                width={4000}
-                height={300}
-                alt={details.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-zinc-950 opacity-35"></div>
+              <Suspense fallback={<Skeleton />}>
+                <Image
+                  src={`${path}${details.poster_path}`}
+                  width={4000}
+                  height={300}
+                  alt={details.name}
+                  className="w-full h-full object-cover"
+                />
+              </Suspense>
             </div>
             <div className="space-y-4">
               <h2 className="lg:text-3xl md:text-2xl text-xl font-medium ">
