@@ -131,7 +131,7 @@ export default async function TvInfo({ params }: { params: { id: string } }) {
                     Last air date
                   </h3>
                   <p className="lg:text-lg md:text-base text-sm font-medium">
-                    {details.last_air_date}
+                    {details.last_air_date} || In progress
                   </p>
                 </div>
               </div>

@@ -1,8 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Movies, Tv } from "@/schema";
 import Link from "next/link";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import Image from "next/image";
+import { Skeleton } from "./ui/skeleton";
 export default function Top({ movies, tvs }: { movies: Movies[]; tvs: Tv[] }) {
   const path = "https://image.tmdb.org/t/p/original";
   const movie = useMemo(
@@ -43,20 +44,22 @@ export default function Top({ movies, tvs }: { movies: Movies[]; tvs: Tv[] }) {
 
       <TabsContent value="movie">
         <div className="grid gap-[20px] lg:grid-cols-4 md:grid-cols-2 mt-5 w-full ">
-          {movie.map((trending) => (
-            <Link key={trending.id} href={`/movie/${trending.id} `}>
-              <Image
-                src={`${path}${trending.poster_path}`}
-                height={4000}
-                width={300}
-                alt={trending.title}
-                className="w-full"
-              />
-              <h3 className="py-5 line-clamp-1 font-medium">
-                {trending.title}
-              </h3>
-            </Link>
-          ))}
+          <Suspense fallback={<Skeleton />}>
+            {movie.map((trending) => (
+              <Link key={trending.id} href={`/movie/${trending.id} `}>
+                <Image
+                  src={`${path}${trending.poster_path}`}
+                  height={4000}
+                  width={300}
+                  alt={trending.title}
+                  className="w-full"
+                />
+                <h3 className="py-5 line-clamp-2 font-medium">
+                  {trending.title}
+                </h3>
+              </Link>
+            ))}
+          </Suspense>
         </div>
       </TabsContent>
       <TabsContent value="tv">
