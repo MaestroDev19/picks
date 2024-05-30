@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Open_Sans, Work_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
-
+import { ThemeProvider } from "@/components/theme-provider";
+import { Nav } from "@/components/nav";
 const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,8 +16,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Nav />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

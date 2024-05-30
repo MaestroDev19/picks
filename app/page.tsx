@@ -8,8 +8,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <Slider content={content[0]} />
-
-      <div className="lg:px-20 mt-20">
+      <div className="px-5 md:px-10 lg:px-20 my-20">
         <Content
           content={content[0]}
           movieContent={content[1]}
