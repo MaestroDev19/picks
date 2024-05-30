@@ -70,7 +70,14 @@ export interface Video {
   id: string;
   name: string;
 }
-
+export interface Video {
+  type: string;
+  site: string;
+  offical: string;
+  key: string;
+  id: string;
+  name: string;
+}
 const key = process.env.API_KEY;
 const url = "https://api.themoviedb.org/3";
 
