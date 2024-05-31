@@ -38,7 +38,7 @@ export function Slider({ content }: { content: Trending[] }) {
         .sort((a, b) => b.vote_average - a.vote_average),
     [content]
   );
-  console.log(filtered);
+
   return (
     <Carousel
       opts={{

@@ -1,20 +1,18 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trending } from "@/lib/data";
+import { Movies, Trending, Tv } from "@/lib/data";
 import Link from "next/link";
 import { Suspense, useMemo } from "react";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton"; // Make sure to import the Skeleton component
 import { Popcorn, Star } from "lucide-react";
 
-export default function Content({
-  content,
+export default function Rated({
   movieContent,
   tvContent,
 }: {
-  content: Trending[];
-  movieContent: Trending[];
-  tvContent: Trending[];
+  movieContent: Movies[];
+  tvContent: Tv[];
 }) {
   const path = "https://image.tmdb.org/t/p/original";
   function convertToOneDecimal(trendingVoteAverage: number): number {
@@ -25,29 +23,11 @@ export default function Content({
       return trendingVoteAverage;
     }
   }
-  const all = useMemo(
-    () =>
-      content
-        .filter(
-          (trending) =>
-            trending.overview !== "" &&
-            trending.tagline !== "" &&
-            trending.poster_path !== "" &&
-            trending.backdrop_path !== ""
-        )
-        .filter(
-          (trending) =>
-            trending.media_type === "movie" || trending.media_type === "tv"
-        )
-        .sort((a, b) => b.popularity - a.popularity)
-        .sort((a, b) => b.vote_average - a.vote_average),
-    [content]
-  );
 
   const movie = useMemo(
     () =>
       movieContent
-        .filter((trending) => trending.media_type === "movie")
+
         .filter(
           (trending) =>
             trending.overview !== "" &&
@@ -63,7 +43,7 @@ export default function Content({
   const tv = useMemo(
     () =>
       tvContent
-        .filter((trending) => trending.media_type === "tv")
+
         .filter(
           (trending) =>
             trending.overview !== "" &&
@@ -77,70 +57,11 @@ export default function Content({
   );
 
   return (
-    <Tabs defaultValue="all" className="">
+    <Tabs defaultValue="movie" className="">
       <TabsList className="max-w-xl">
-        <TabsTrigger value="all">All</TabsTrigger>
         <TabsTrigger value="movie">Movies</TabsTrigger>
         <TabsTrigger value="tv">Tv shows</TabsTrigger>
       </TabsList>
-
-      <TabsContent value="all">
-        <div className="flex w-full">
-          <div className="grid gap-[25px] lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 mt-5 w-full ">
-            {all.map((trending) => (
-              <Suspense
-                fallback={<Skeleton className="w-[300px]" />}
-                key={trending.id}
-              >
-                <Link href={`/${trending.media_type}/${trending.id} `}>
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
-                    <Image
-                      src={`${path}${trending.poster_path}`}
-                      height={4000}
-                      width={300}
-                      alt={trending.name || trending.title}
-                      className="w-full"
-                    />{" "}
-                    <div className="absolute bottom-0 inset-x-0 text-white p-5 space-y-1.5">
-                      <p className="capitalize text-sm text-muted-foreground">
-                        {trending.media_type}
-                      </p>
-                      <h3 className="line-clamp-1 font-medium text-base">
-                        {trending.name || trending.title}
-                      </h3>
-                      <div className="flex  items-center space-x-1.5">
-                        <div
-                          className=" w-fit py-1 px-1.5 rounded bg-white shadow-lg  bg-clip-padding bg-opacity-15  border-gray-200
-                          backdrop-filter: blur(20px);"
-                        >
-                          <div className="flex items-center space-x-1 text-xs">
-                            <Star width={12} height={12} />
-                            <span>
-                              {convertToOneDecimal(trending.vote_average)}
-                            </span>
-                          </div>
-                        </div>
-                        <div
-                          className=" w-fit py-1 px-1.5 rounded bg-white shadow-lg  bg-clip-padding bg-opacity-15  border-gray-200
-                          backdrop-filter: blur(20px);"
-                        >
-                          <div className="flex items-center space-x-1 text-xs">
-                            <Popcorn width={12} height={12} />
-                            <span>
-                              {convertToOneDecimal(trending.popularity)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </Suspense>
-            ))}
-          </div>
-        </div>
-      </TabsContent>
 
       <TabsContent value="movie">
         <div className="grid gap-[20px] lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 mt-5 w-full ">
@@ -149,22 +70,22 @@ export default function Content({
               fallback={<Skeleton className="w-[300px]" />}
               key={trending.id}
             >
-              <Link href={`/${trending.media_type}/${trending.id} `}>
+              <Link href={`/movie/${trending.id} `}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
                   <Image
                     src={`${path}${trending.poster_path}`}
                     height={4000}
                     width={300}
-                    alt={trending.name || trending.title}
+                    alt={trending.title}
                     className="w-full"
                   />{" "}
                   <div className="absolute bottom-0 inset-x-0 text-white p-5 space-y-1.5">
                     <p className="capitalize text-sm text-muted-foreground">
-                      {trending.media_type}
+                      movie
                     </p>
                     <h3 className="line-clamp-1 font-medium text-base">
-                      {trending.name || trending.title}
+                      {trending.title}
                     </h3>
                     <div className="flex  items-center space-x-1.5">
                       <div
@@ -205,22 +126,22 @@ export default function Content({
               fallback={<Skeleton className="w-[300px]" />}
               key={trending.id}
             >
-              <Link href={`/${trending.media_type}/${trending.id} `}>
+              <Link href={`/tv/${trending.id} `}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
                   <Image
                     src={`${path}${trending.poster_path}`}
                     height={4000}
                     width={300}
-                    alt={trending.name || trending.title}
+                    alt={trending.name}
                     className="w-full"
                   />{" "}
                   <div className="absolute bottom-0 inset-x-0 text-white p-5 space-y-1.5">
                     <p className="capitalize text-sm text-muted-foreground">
-                      {trending.media_type}
+                      tv
                     </p>
                     <h3 className="line-clamp-1 font-medium text-base">
-                      {trending.name || trending.title}
+                      {trending.name}
                     </h3>
                     <div className="flex  items-center space-x-1.5">
                       <div

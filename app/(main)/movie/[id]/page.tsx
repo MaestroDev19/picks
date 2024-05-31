@@ -51,7 +51,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             className="w-full h-full object-cover"
           />{" "}
         </div>
-        <div className="my-20 px-5 md:px-10 lg:px-20">
+        <div className="my-20 px-5 md:px-10 lg:px-20 grid gap-y-10">
           <div className="space-y-5">
             <Breadcrumb>
               <BreadcrumbList>
@@ -72,6 +72,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               {details.title}
             </h1>
           </div>
+          hi
         </div>
       </section>
     </>
