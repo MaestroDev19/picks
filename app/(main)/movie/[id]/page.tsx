@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Popcorn, Star, icons } from "lucide-react";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const key = process.env.API_KEY;
@@ -72,7 +73,79 @@ export default async function Page({ params }: { params: { id: string } }) {
               {details.title}
             </h1>
           </div>
-          hi
+          <div className="grid gap-8 sm:grid-cols-2">
+            <div className="sm:w-5/6 md:w-full lg:w-4/6  relative">
+              <Image
+                src={`${path}${details.poster_path}`}
+                width={4000}
+                height={300}
+                alt={details.title}
+                className="w-full "
+              />
+              <div className="absolute inset-0 bg-zinc-950 opacity-35"></div>
+            </div>
+            <div className="space-y-5">
+              <h3 className="lg:text-2xl md:text-xl text-lg font-medium  text-muted-foreground">
+                {details.tagline}
+              </h3>
+              <p className="text-sm md:text-base lg:text-lg leading-loose">
+                {details.overview}
+              </p>
+              <div className="flex items-center space-x-2">
+                {" "}
+                <div className="flex items-center space-x-1">
+                  <Star width={16} height={16} />{" "}
+                  <span className="text-sm lg:text-base">
+                    {convertToOneDecimal(details.vote_average)}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Popcorn width={16} height={16} />{" "}
+                  <span className="text-sm lg:text-base">
+                    {convertToOneDecimal(details.popularity)}
+                  </span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>
+                  <p className="lg:text-base md:text-sm text-xs">Status</p>
+                  <span className="lg:text-lg md:text-base text-sm font-medium">
+                    {details.status}
+                  </span>
+                </div>
+                <div>
+                  <p className="lg:text-base md:text-sm text-xs">
+                    Release date
+                  </p>
+                  <span className="lg:text-lg md:text-base text-sm font-medium">
+                    {details.release_date}
+                  </span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2">
+                <div>
+                  <p className="lg:text-base md:text-sm text-xs">Run time</p>
+                  <span className="lg:text-lg md:text-base text-sm font-medium">
+                    {details.runtime} minutes
+                  </span>
+                </div>
+                <div>
+                  <p className="lg:text-base md:text-sm text-xs">Genres</p>
+                  <span className="lg:text-lg md:text-base text-sm font-medium">
+                    <div className="flex flex-col space-y-1">
+                      {details.genres.map((genre) => (
+                        <div key={genre.id}>
+                          <p className="font-medium lg:text-lg md:text-base text-sm">
+                            {genre.name}{" "}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </>
