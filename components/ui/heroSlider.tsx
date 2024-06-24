@@ -7,14 +7,18 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { useMemo } from "react";
 import { Trending } from "@/lib/data";
-import { Plus, Popcorn, Star } from "lucide-react";
+import { Check, Minus, Plus, Popcorn, Star } from "lucide-react";
 import { Button } from "./button";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useSetAtom, useAtomValue, useAtom, useStore } from "jotai";
+import { myListFlow } from "@/lib/store";
 const path = "https://image.tmdb.org/t/p/original";
 
 export function Slider({ content }: { content: Trending[] }) {
+  const [watchlist, setWatchlist] = useAtom(myListFlow, {
+    store: useStore(),
+  });
   function convertToOneDecimal(trendingVoteAverage: number): number {
     const decimalPart = trendingVoteAverage.toString().split(".")[1];
     if (decimalPart && decimalPart.length > 1) {
@@ -38,7 +42,74 @@ export function Slider({ content }: { content: Trending[] }) {
         .sort((a, b) => b.vote_average - a.vote_average),
     [content]
   );
+  const handleAddToWatchlistMovie = (item: Trending) => {
+    setWatchlist((prev) => {
+      const alreadyInWatchlist = prev.movies.some(
+        (movie) => movie.id === item.id
+      );
+      if (alreadyInWatchlist) {
+        console.log("Movie is already in the watchlist.");
+        return prev;
+      }
+      return {
+        ...prev,
+        movies: [
+          ...prev.movies,
+          {
+            vote_average: item.vote_average,
+            popularity: item.popularity,
+            id: item.id,
+            title: item.title,
+            poster_path: item.poster_path,
+            media_type: item.media_type,
+          },
+        ],
+      };
+    });
+    console.log("Added movie to watchlist: ", item);
+  };
 
+  const handleAddToWatchlistTV = (item: Trending) => {
+    setWatchlist((prev) => {
+      const alreadyInWatchlist = prev.tvShows.some(
+        (tvShow) => tvShow.id === item.id
+      );
+      if (alreadyInWatchlist) {
+        console.log("TV show is already in the watchlist.");
+        return prev;
+      }
+      return {
+        ...prev,
+        tvShows: [
+          ...prev.tvShows,
+          {
+            vote_average: item.vote_average,
+            popularity: item.popularity,
+            id: item.id,
+            name: item.name,
+            poster_path: item.poster_path,
+            media_type: item.media_type,
+          },
+        ],
+      };
+    });
+    console.log("Added TV show to watchlist: ", item);
+  };
+  const handleRemoveFromWatchlist = (item: Trending) => {
+    setWatchlist((prev) => ({
+      ...prev,
+      movies: prev.movies.filter((movie) => movie.id !== item.id),
+      tvShows: prev.tvShows.filter((tvShow) => tvShow.id !== item.id),
+    }));
+    console.log("Removed from watchlist: ", item);
+  };
+
+  const isInwatchList = (item: Trending) => {
+    return (
+      watchlist.movies.some((movie) => movie.id === item.id) ||
+      watchlist.tvShows.some((tvShow) => tvShow.id === item.id)
+    );
+  };
   return (
     <Carousel
       opts={{
@@ -93,19 +164,30 @@ export function Slider({ content }: { content: Trending[] }) {
                       View more
                     </Link>
                   </Button>
-                  <Button
-                    className="rounded-none"
-                    variant={"secondary"}
-                    asChild
-                  >
-                    <Link
-                      href={`/${trending.media_type}/${trending.id}`}
-                      className="font-medium"
+                  {isInwatchList(trending) ? (
+                    <Button
+                      className="rounded-none font-medium"
+                      variant={"secondary"}
+                      onClick={() => handleRemoveFromWatchlist(trending)}
                     >
-                      <Plus className="mr-2 h-4 w-4" />
+                      <Check className="mr-2 h-4 w-4" />
+                      Added
+                    </Button>
+                  ) : (
+                    <Button
+                      className="rounded-none"
+                      variant={"secondary"}
+                      onClick={() => {
+                        if (trending.media_type === "movie") {
+                          handleAddToWatchlistMovie(trending);
+                        } else if (trending.media_type === "tv") {
+                          handleAddToWatchlistTV(trending);
+                        }
+                      }}
+                    >
                       Add to list
-                    </Link>
-                  </Button>
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

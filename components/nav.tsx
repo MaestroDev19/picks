@@ -38,7 +38,7 @@ export function Nav() {
             <span className="sr-only">Auditro</span>
           </Link>
           <Link
-            href="#"
+            href="/"
             className="text-foreground transition-colors hover:text-foreground"
           >
             Home
@@ -56,10 +56,10 @@ export function Nav() {
             Tv
           </Link>
           <Link
-            href="#"
+            href="/picks"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            My list
+            Picks
           </Link>
           <Link
             href="#"
