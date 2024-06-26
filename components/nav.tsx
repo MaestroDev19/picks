@@ -62,7 +62,7 @@ export function Nav() {
             Picks
           </Link>
           <Link
-            href="#"
+            href="/search"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             Search
@@ -100,31 +100,31 @@ export function Nav() {
                 <span className="sr-only">Auditro</span>
               </Link>
               <Link
-                href="#"
+                href="/"
                 className="text-foreground transition-colors hover:text-foreground"
               >
                 Home
               </Link>
               <Link
-                href="#"
+                href="/movie"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
                 Movies
               </Link>
               <Link
-                href="#"
+                href="tv"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
                 Tv shows
               </Link>
               <Link
-                href="#"
+                href="/picks"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
-                My list
+                Picks
               </Link>
               <Link
-                href="#"
+                href="/search"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
                 Search
