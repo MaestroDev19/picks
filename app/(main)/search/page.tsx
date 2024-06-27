@@ -25,7 +25,6 @@ export default async function Search({
           Search
         </h2>
         <SearchBox />
-        {result.results.length !== 0 && <p>Showing {result.results.length}</p>}
 
         <Result result={result.results} />
       </div>

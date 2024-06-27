@@ -13,7 +13,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import NavLink from "./link";
+import { Fragment } from "react";
 export function Nav() {
+  const links = [
+    { name: "Home", href: "/" },
+    { name: "Movies", href: "/movie" },
+    { name: "Tv", href: "/tv" },
+    { name: "Picks", href: "/picks" },
+    { name: "Search", href: "/search" },
+  ];
   const { theme, setTheme } = useTheme();
   return (
     <>
@@ -37,36 +46,11 @@ export function Nav() {
             </svg>
             <span className="sr-only">Auditro</span>
           </Link>
-          <Link
-            href="/"
-            className="text-foreground transition-colors hover:text-foreground"
-          >
-            Home
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Movies
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Tv
-          </Link>
-          <Link
-            href="/picks"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Picks
-          </Link>
-          <Link
-            href="/search"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Search
-          </Link>
+          {links.map((link) => (
+            <Fragment key={link.name}>
+              <NavLink myLinkHref={link.href} myLink={link.name} />
+            </Fragment>
+          ))}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -99,36 +83,11 @@ export function Nav() {
                 </svg>
                 <span className="sr-only">Auditro</span>
               </Link>
-              <Link
-                href="/"
-                className="text-foreground transition-colors hover:text-foreground"
-              >
-                Home
-              </Link>
-              <Link
-                href="/movie"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Movies
-              </Link>
-              <Link
-                href="tv"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Tv shows
-              </Link>
-              <Link
-                href="/picks"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Picks
-              </Link>
-              <Link
-                href="/search"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Search
-              </Link>
+              {links.map((link) => (
+                <Fragment key={link.name}>
+                  <NavLink myLinkHref={link.href} myLink={link.name} />
+                </Fragment>
+              ))}
             </nav>
           </SheetContent>
         </Sheet>

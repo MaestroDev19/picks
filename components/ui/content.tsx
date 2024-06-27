@@ -97,7 +97,7 @@ export default function Content({
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
                     <Image
                       src={`${path}${trending.poster_path}`}
-                      height={4000}
+                      height={400}
                       width={300}
                       alt={trending.name || trending.title}
                       className="w-full"
