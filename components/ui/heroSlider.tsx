@@ -123,7 +123,7 @@ export function Slider({ content }: { content: Trending[] }) {
       ]}
     >
       <CarouselContent className="-ml-2 md:-ml-4">
-        {filtered.map((trending) => (
+        {filtered.map((trending, index) => (
           <CarouselItem key={trending.id} className="-pl-2 md:-pl-4">
             <div className="w-full h-[700px] mx-auto flex items-center relative">
               <Image
@@ -133,7 +133,7 @@ export function Slider({ content }: { content: Trending[] }) {
                 sizes="(min-width: 808px) 50vw, 100vw"
                 alt={trending.name || trending.title}
                 className="object-cover"
-                loading="lazy"
+                loading={index === 0 ? "eager" : "lazy"}
               />
               <div className="absolute inset-0 bg-zinc-950 opacity-65"></div>
               <div className="w-full px-[25px] md:px-[50px] lg:px-[100px] flex flex-col space-y-8 absolute text-white">
