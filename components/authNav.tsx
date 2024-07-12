@@ -136,7 +136,7 @@ export function AuthNav({
               <DropdownMenuTrigger asChild>
                 <Avatar>
                   <AvatarImage src={avatar} />
-                  <AvatarFallback>{name ? name[0] : "J"}</AvatarFallback>
+                  <AvatarFallback>{name ? name[0] : "0"}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
