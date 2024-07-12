@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/nav";
 import StoreProvider from "@/components/provider";
+import Navbar from "@/components/navbar";
 const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Nav />
+            <Navbar />
             {children}
           </ThemeProvider>
         </StoreProvider>

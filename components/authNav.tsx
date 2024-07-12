@@ -16,7 +16,24 @@ import { Button } from "./ui/button";
 import NavLink from "./link";
 import { Fragment, useState } from "react";
 import { fetchProfileData, loginWithGoogle } from "@/lib/actions";
-export function Nav() {
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
+export function AuthNav({
+  name,
+  avatar,
+}: {
+  name: string | undefined;
+  avatar: string | undefined;
+}) {
   const links = [
     { name: "Home", href: "/" },
     { name: "Movies", href: "/movie" },
@@ -26,15 +43,6 @@ export function Nav() {
   ];
   const { theme, setTheme } = useTheme();
 
-  const googleSignIn = async () => {
-    try {
-      await loginWithGoogle();
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
-  };
   return (
     <>
       <header className="sticky z-10 w-full  top-0 flex justify-end py-4 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -123,10 +131,43 @@ export function Nav() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <Button variant={"secondary"} onClick={googleSignIn}>
-            Sign in
-          </Button>
+          <AlertDialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar>
+                  <AvatarImage src={avatar} />
+                  <AvatarFallback>{name[0]}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                  Watchlist
+                </DropdownMenuItem>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem>
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <form action={"/auth/signout"} method="post">
+                  <AlertDialogAction type="submit" className="w-full">
+                    Logout
+                  </AlertDialogAction>
+                </form>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </header>
     </>
