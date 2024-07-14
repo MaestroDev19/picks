@@ -1,0 +1,27 @@
+{
+  "name": "Picks - Movie and TV Show Recommendations",
+  "short_name": "Picks",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android-chrome-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "0 72.2% 50.6%",
+  "background_color": "0 0% 3.9%",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any"
+}
