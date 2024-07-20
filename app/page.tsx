@@ -10,7 +10,7 @@ export default async function Home() {
   const topRatedContentMovie = await topRatedMovies();
   const tvcontent = content[2];
   return (
-    <main className="min-h-screen">
+    <main className="min-h-dvh">
       <Slider content={content[0]} />
       <div className="px-5 md:px-10 lg:px-20 my-20 grid gap-y-20">
         <div className="space-y-10">

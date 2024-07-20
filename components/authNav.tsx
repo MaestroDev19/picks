@@ -15,7 +15,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import NavLink from "./link";
 import { Fragment, useState } from "react";
-import { fetchProfileData, loginWithGoogle } from "@/lib/actions";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,6 +41,7 @@ export function AuthNav({
     { name: "Picks", href: "/picks" },
     { name: "Search", href: "/search" },
   ];
+  const dropdownLinks = {};
   const { theme, setTheme } = useTheme();
 
   return (
@@ -65,6 +66,7 @@ export function AuthNav({
             </svg>
             <span className="sr-only">Auditro</span>
           </Link>
+
           {links.map((link) => (
             <Fragment key={link.name}>
               <NavLink myLinkHref={link.href} myLink={link.name} />

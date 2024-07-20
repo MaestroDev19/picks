@@ -1,6 +1,7 @@
 {
   "name": "Picks - Movie and TV Show Recommendations",
   "short_name": "Picks",
+  "scope": "/",
   "icons": [
     {
       "src": "/icons/android-chrome-192x192.png",
