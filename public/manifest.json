@@ -20,8 +20,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "0 72.2% 50.6%",
-  "background_color": "0 0% 3.9%",
+  "theme_color": "#DE2626",
+  "background_color": "#0A0A0A",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any"

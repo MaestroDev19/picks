@@ -23,7 +23,7 @@ export default async function Genre({ params }: { params: { id: string } }) {
   );
   const movies = await response.json();
   const movie: Movies[] = movies.results;
-
+  console.log(movie);
   return (
     <main className="min-h-dvh">
       <div className="px-5 md:px-10 lg:px-20 my-20 grid gap-y-20">
@@ -53,7 +53,7 @@ export default async function Genre({ params }: { params: { id: string } }) {
                       <img
                         src={`${path}${trending.poster_path}`}
                         alt={trending.title}
-                        className=" w-full"
+                        className="w-full"
                       />
                       <div className="absolute bottom-0 inset-x-0 text-white p-5 space-y-1.5">
                         <p className="capitalize text-sm text-muted-foreground">

@@ -73,10 +73,8 @@ export default function Rated({
               <Link href={`/movie/${trending.id} `}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
-                  <Image
+                  <img
                     src={`${path}${trending.poster_path}`}
-                    height={4000}
-                    width={300}
                     alt={trending.title}
                     className="w-full"
                   />{" "}
@@ -129,10 +127,8 @@ export default function Rated({
               <Link href={`/tv/${trending.id} `}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
-                  <Image
+                  <img
                     src={`${path}${trending.poster_path}`}
-                    height={4000}
-                    width={300}
                     alt={trending.name}
                     className="w-full"
                   />{" "}

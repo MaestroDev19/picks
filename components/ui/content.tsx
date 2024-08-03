@@ -95,10 +95,8 @@ export default function Content({
                 <Link href={`/${trending.media_type}/${trending.id} `}>
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
-                    <Image
+                    <img
                       src={`${path}${trending.poster_path}`}
-                      height={400}
-                      width={300}
                       alt={trending.name || trending.title}
                       className="w-full"
                     />{" "}
@@ -152,10 +150,8 @@ export default function Content({
               <Link href={`/${trending.media_type}/${trending.id} `}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
-                  <Image
+                  <img
                     src={`${path}${trending.poster_path}`}
-                    height={4000}
-                    width={300}
                     alt={trending.name || trending.title}
                     className="w-full"
                   />{" "}
@@ -208,10 +204,8 @@ export default function Content({
               <Link href={`/${trending.media_type}/${trending.id} `}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 opacity-100"></div>
-                  <Image
+                  <img
                     src={`${path}${trending.poster_path}`}
-                    height={4000}
-                    width={300}
                     alt={trending.name || trending.title}
                     className="w-full"
                   />{" "}
