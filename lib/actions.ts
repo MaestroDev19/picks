@@ -5,16 +5,22 @@ import { redirect } from "next/navigation";
 export const loginWithGoogle = async () => {
   const supabase = createClient();
   const origin = headers().get("origin");
-  const { data: google, error: googleError } =
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${origin}/auth/callback`,
-      },
-    });
-  if (google.url) {
-    console.log(google.url);
-    redirect(google.url); // use the redirect API for your server framework
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    console.error("Error during Google sign-in:", error);
+    // Handle the error appropriately
+    return;
+  }
+
+  if (data?.url) {
+    // Instead of using redirect, return the URL
+    return data.url;
   }
 };
 

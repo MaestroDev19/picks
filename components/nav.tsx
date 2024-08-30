@@ -27,12 +27,12 @@ export function Nav() {
   const { theme, setTheme } = useTheme();
 
   const googleSignIn = async () => {
-    try {
-      await loginWithGoogle();
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
+   const url = await loginWithGoogle();
+  if (url) {
+    window.location.href = url;
+  }
+      
+    
     }
   };
   return (
