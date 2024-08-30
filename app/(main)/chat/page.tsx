@@ -15,6 +15,9 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eraser, CornerDownLeft, Loader2 } from "lucide-react";
+
+// Assuming this component exists
 
 interface Message {
   text: string;
@@ -69,61 +72,69 @@ export default function Chat() {
   }
 
   return (
-    <div className="bg-card text-card-foreground pt-5 flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto px-4">
-        <div className="space-y-4">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`flex w-max max-w-[100%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
-                message.role === "model"
-                  ? "bg-muted"
-                  : "ml-auto bg-primary text-primary-foreground"
-              }`}
-            >
-              <ReactMarkdown>{message.text}</ReactMarkdown>
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
+    <div className="h-[calc(100dvh)]">
+      <div className="flex h-full flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
+        <div className="flex-1 overflow-y-auto">
+          <div className="space-y-4 px-4">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${
+                  message.role === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                <span
+                  className={`flex w-max max-w-[80%] flex-col gap-2 rounded-lg px-3 py-2 text-sm ${
+                    message.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary text-secondary-foreground"
+                  }`}
+                >
+                  <ReactMarkdown>{message.text}</ReactMarkdown>
+                </span>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
-      </div>
-      <div className="py-4 px-4">
         <Form {...form}>
           <form
-            className="flex flex-col w-full items-center space-y-2"
             onSubmit={form.handleSubmit(onSubmit)}
+            className="py-4 rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"
           >
-            <div className="relative w-full">
-              <FormField
-                control={form.control}
-                name="chat"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        id="message"
-                        autoComplete="off"
-                        rows={1}
-                        className="pr-24 resize-none overflow-y-auto min-h-[40px] max-h-[120px] focus:outline-none focus:ring-0 border bg-muted"
-                        {...field}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+            <FormField
+              control={form.control}
+              name="chat"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      id="message"
+                      placeholder="Type your message here..."
+                      className="min-h-12 resize-none border-0 p-3 shadow-none focus-within:ring-0 focus-visible:ring-0"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <div className="flex items-center p-3 pt-0">
+              <Button
+                type="submit"
+                size="sm"
+                className="ml-auto gap-1.5"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <span>Relax i got you</span>
+                  </div>
+                ) : (
+                  "Send Message"
                 )}
-              />
-              <div className="absolute right-2 bottom-1 flex space-x-2">
-                <Button
-                  type="submit"
-                  size="icon"
-                  variant={"ghost"}
-                  className="h-8 w-8"
-                  disabled={isLoading}
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
+                <CornerDownLeft className="size-3.5" />
+              </Button>
             </div>
           </form>
         </Form>

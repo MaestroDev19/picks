@@ -40,6 +40,7 @@ export function AuthNav({
     { name: "Tv", href: "/tv" },
     { name: "Picks", href: "/picks" },
     { name: "Search", href: "/search" },
+    { name: "Chat", href: "/chat" },
   ];
   const dropdownLinks = {};
   const { theme, setTheme } = useTheme();
