@@ -27,12 +27,9 @@ export function Nav() {
   const { theme, setTheme } = useTheme();
 
   const googleSignIn = async () => {
-   const url = await loginWithGoogle();
-  if (url) {
-    window.location.href = url;
-  }
-      
-    
+    const url = await loginWithGoogle();
+    if (url) {
+      window.location.href = url;
     }
   };
   return (
