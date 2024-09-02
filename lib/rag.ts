@@ -15,8 +15,7 @@ import {
   RunnableSequence,
   RunnablePassthrough,
 } from "@langchain/core/runnables";
-import Groq from "groq-sdk";
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
+
 const llm = new ChatGoogleGenerativeAI({
   apiKey: process.env.NEXT_PUBLIC_GEMINI!,
   model: "gemini-1.5-flash",
