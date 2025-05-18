@@ -1,0 +1,4 @@
+import axios from 'axios';
+async function testAPI() {
+   const res = await axios.post(`/api/persona`)
+}

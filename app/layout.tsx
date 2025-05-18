@@ -1,62 +1,33 @@
-import type { Metadata, Viewport } from "next";
-import { Open_Sans, Work_Sans, Montserrat } from "next/font/google";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono ,Mulish} from "next/font/google";
 import "./globals.css";
-import { Nav } from "@/components/nav";
-import StoreProvider from "@/components/provider";
-import Navbar from "@/components/navbar";
-const inter = Montserrat({ subsets: ["latin"] });
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+const mulish = Mulish({
+ 
+  subsets: ["latin"],
+  weight: ["300","400","500","600" ,"700"],
+});
+
 export const metadata: Metadata = {
-  title: {
-    default: "Picks - Movie and TV Show Recommendations",
-    template: "%s - Picks",
-  },
-  description:
-    "Discover your next favorite movie or TV show with Picks. Personalized recommendations and search for all your viewing needs.",
-  manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Picks - Movie and TV Show Recommendations",
-    // startUpImage: [],
-  },
-  formatDetection: {
-    telephone: false,
-  },
-  openGraph: {
-    type: "website",
-    siteName: "Picks",
-    title: {
-      default: "Picks - Movie and TV Show Recommendations",
-      template: "%s - Picks",
-    },
-    description:
-      "Discover your next favorite movie or TV show with Picks. Personalized recommendations and search for all your viewing needs.",
-  },
-  twitter: {
-    card: "summary",
-    title: {
-      default: "Picks - Movie and TV Show Recommendations",
-      template: "%s - Picks",
-    },
-    description:
-      "Discover your next favorite movie or TV show with Picks. Personalized recommendations and search for all your viewing needs.",
-  },
+  title: "Home : Picks - Your collection of best tv shows and movies",
+  description: "Your collection of best tv shows and movies",
 };
-export const viewport: Viewport = {
-  themeColor: "0 72.2% 50.6%",
-};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <StoreProvider>
-          <Navbar />
-          {children}
-        </StoreProvider>
+    <html lang="en">
+      <body
+        className={` ${mulish.className} antialiased`}
+      >
+        {children}
       </body>
     </html>
   );
