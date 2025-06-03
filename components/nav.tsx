@@ -223,15 +223,15 @@ export default function MovieNavbar() {
                 <span className="sr-only">Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80">
-              <div className="flex flex-col space-y-6 pt-6">
+            <SheetContent side="right" className="w-80 p-6">
+              <div className="flex flex-col space-y-6">
                 {/* Mobile Navigation Links */}
                 <div className="space-y-4">
                   {navigationItems.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="flex items-center space-x-3 text-lg font-medium text-foreground"
+                      className="flex items-center space-x-3 text-lg font-medium text-foreground p-2"
                     >
                       <span>{item.name}</span>
                     </Link>
@@ -252,13 +252,13 @@ export default function MovieNavbar() {
                 <div className="space-y-3 pt-6 border-t">
                   <Link
                     href="/profile"
-                    className="block text-sm text-muted-foreground hover:text-foreground"
+                    className="block text-sm text-muted-foreground hover:text-foreground p-2"
                   >
                     Profile
                   </Link>
                   <Link
                     href="/settings"
-                    className="block text-sm text-muted-foreground hover:text-foreground"
+                    className="block text-sm text-muted-foreground hover:text-foreground p-2"
                   >
                     Settings
                   </Link>
