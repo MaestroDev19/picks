@@ -6,7 +6,8 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const movie = await getMovieDetails(params.id);
+  const { id } = await params;
+  const movie = await getMovieDetails(id);
   return {
     title: `${movie.title} : Picks - Your collection of best tv shows and movies`,
     description: movie.overview,
