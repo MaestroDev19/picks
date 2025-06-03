@@ -5,9 +5,10 @@ import { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const movie = await getMovieDetails(params.id);
+  const { id } = await params;
+  const movie = await getMovieDetails(id);
   return {
     title: `${movie.title} : Picks - Your collection of best tv shows and movies`,
     description: movie.overview,
@@ -17,8 +18,9 @@ export async function generateMetadata({
 export default async function MovieDetails({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const movie = await getMovieDetails(params.id);
+  const { id } = await params;
+  const movie = await getMovieDetails(id);
   return <Details item={movie} />;
 }
