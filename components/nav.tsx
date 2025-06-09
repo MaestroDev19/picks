@@ -20,8 +20,8 @@ import { useRouter } from "next/navigation";
 
 const navigationItems = [
   { name: "Home", href: "/" },
-  { name: "Movies", href: "/movies", icon: Film },
-  { name: "TV Shows", href: "/tv-shows", icon: Tv },
+  { name: "Movies", href: "/movie", icon: Film },
+  { name: "TV Shows", href: "/tv", icon: Tv },
   { name: "Watchlist", href: "/watchlist", icon: Bookmark },
 ];
 

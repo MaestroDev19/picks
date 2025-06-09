@@ -1,4 +1,11 @@
-import { Endpoints, Movies, Trailer, Trending, TvShows } from "./types";
+import type {
+  Endpoints,
+  Movies,
+  Trailer,
+  Trending,
+  TvShows,
+  Genre,
+} from "./types";
 import axios from "axios";
 
 export const picksEndpoints: Endpoints = {
@@ -11,6 +18,11 @@ export const picksEndpoints: Endpoints = {
   discoverTv: "/discover/tv",
   ratedTv: "/tv/top_rated",
   today: "/tv/airing_today",
+
+  // Genre endpoints
+  movieGenres: "/genre/movie/list",
+  tvGenres: "/genre/tv/list",
+
   // Trending
   trendingTv: "/trending/tv/day",
   trendingMovie: "/trending/movie/day",
@@ -22,6 +34,48 @@ interface FetchOptions {
   page?: number;
   cache?: RequestCache;
 }
+
+// Static genre mappings for better performance
+const MOVIE_GENRES: Record<number, string> = {
+  28: "Action",
+  12: "Adventure",
+  16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  18: "Drama",
+  10751: "Family",
+  14: "Fantasy",
+  36: "History",
+  27: "Horror",
+  10402: "Music",
+  9648: "Mystery",
+  10749: "Romance",
+  878: "Science Fiction",
+  10770: "TV Movie",
+  53: "Thriller",
+  10752: "War",
+  37: "Western",
+};
+
+const TV_GENRES: Record<number, string> = {
+  10759: "Action & Adventure",
+  16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  18: "Drama",
+  10751: "Family",
+  10762: "Kids",
+  9648: "Mystery",
+  10763: "News",
+  10764: "Reality",
+  10765: "Sci-Fi & Fantasy",
+  10766: "Soap",
+  10767: "Talk",
+  10768: "War & Politics",
+  37: "Western",
+};
 
 // Create axios instance with base configuration
 const tmdbApi = axios.create({
@@ -76,36 +130,36 @@ async function fetchData<T>({
   }
 }
 
-export const discoverMovie = async (page: number = 1) => {
+export const discoverMovie = async (page = 1) => {
   return await fetchData<Movies[]>({
     endpoint: picksEndpoints.discoverMovie,
     page,
   });
 };
 
-export const now = async (page: number = 1) => {
+export const now = async (page = 1) => {
   return await fetchData<Movies[]>({ endpoint: picksEndpoints.now, page });
 };
 
-export const ratedMovie = async (page: number = 1) => {
+export const ratedMovie = async (page = 1) => {
   return await fetchData<Movies[]>({
     endpoint: picksEndpoints.ratedMovie,
     page,
   });
 };
 
-export const discoverTv = async (page: number = 1) => {
+export const discoverTv = async (page = 1) => {
   return await fetchData<TvShows[]>({
     endpoint: picksEndpoints.discoverTv,
     page,
   });
 };
 
-export const ratedTv = async (page: number = 1) => {
+export const ratedTv = async (page = 1) => {
   return await fetchData<TvShows[]>({ endpoint: picksEndpoints.ratedTv, page });
 };
 
-export const today = async (page: number = 1) => {
+export const today = async (page = 1) => {
   return await fetchData<TvShows[]>({ endpoint: picksEndpoints.today, page });
 };
 
@@ -170,7 +224,11 @@ export async function getTrailers(
 export async function getMovieDetails(id: string): Promise<Movies> {
   try {
     const res = await tmdbApi.get(`/movie/${id}`, {
-      params: { include_adult: false },
+      params: {
+        include_adult: false,
+        append_to_response: "credits,recommendations,similar,keywords",
+        language: "en-US",
+      },
     });
     return res.data as Movies;
   } catch (error) {
@@ -182,7 +240,12 @@ export async function getMovieDetails(id: string): Promise<Movies> {
 export async function getTvDetails(id: string): Promise<TvShows> {
   try {
     const res = await tmdbApi.get(`/tv/${id}`, {
-      params: { include_adult: false },
+      params: {
+        include_adult: false,
+        append_to_response:
+          "credits,recommendations,similar,keywords,content_ratings",
+        language: "en-US",
+      },
     });
     return res.data as TvShows;
   } catch (error) {
@@ -205,4 +268,255 @@ export async function searchApi(query: string) {
     console.error("Error fetching search data:", error);
     throw new Error("Failed to fetch search data");
   }
+}
+
+// Cache for genres to avoid repeated API calls
+let movieGenresCache: Genre[] | null = null;
+let tvGenresCache: Genre[] | null = null;
+
+export async function getMovieGenres(forceRefresh = false): Promise<Genre[]> {
+  try {
+    // Return cached genres if available and refresh not forced
+    if (movieGenresCache && !forceRefresh) {
+      return movieGenresCache;
+    }
+
+    const res = await tmdbApi.get(picksEndpoints.movieGenres, {
+      params: {
+        language: "en-US",
+      },
+    });
+
+    // Update cache
+    movieGenresCache = res.data.genres as Genre[];
+    return movieGenresCache;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("TMDB API error fetching movie genres:", {
+        status: error.response?.status,
+        message: error.response?.data?.status_message,
+      });
+      throw new Error(
+        `Failed to fetch movie genres: ${
+          error.response?.data?.status_message || error.message
+        }`
+      );
+    }
+    console.error("Error fetching movie genres:", error);
+    throw new Error("Failed to fetch movie genres");
+  }
+}
+
+export async function getTvGenres(forceRefresh = false): Promise<Genre[]> {
+  try {
+    // Return cached genres if available and refresh not forced
+    if (tvGenresCache && !forceRefresh) {
+      return tvGenresCache;
+    }
+
+    const res = await tmdbApi.get(picksEndpoints.tvGenres, {
+      params: {
+        language: "en-US",
+      },
+    });
+
+    // Update cache
+    tvGenresCache = res.data.genres as Genre[];
+    return tvGenresCache;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("TMDB API error fetching TV genres:", {
+        status: error.response?.status,
+        message: error.response?.data?.status_message,
+      });
+      throw new Error(
+        `Failed to fetch TV genres: ${
+          error.response?.data?.status_message || error.message
+        }`
+      );
+    }
+    console.error("Error fetching TV genres:", error);
+    throw new Error("Failed to fetch TV genres");
+  }
+}
+
+interface DiscoverOptions {
+  page?: number;
+  sortBy?:
+    | "popularity.desc"
+    | "vote_average.desc"
+    | "primary_release_date.desc";
+  minVoteCount?: number;
+  minVoteAverage?: number;
+  releaseDateGte?: string; // YYYY-MM-DD format
+  releaseDateLte?: string; // YYYY-MM-DD format
+  withOriginalLanguage?: string;
+}
+
+export async function discoverMoviesByGenre(
+  genreId: string,
+  options: DiscoverOptions = {}
+): Promise<Movies[]> {
+  try {
+    const {
+      page = 1,
+      sortBy = "popularity.desc",
+      minVoteCount = 100,
+      minVoteAverage,
+      releaseDateGte,
+      releaseDateLte,
+      withOriginalLanguage,
+    } = options;
+
+    const res = await tmdbApi.get(picksEndpoints.discoverMovie, {
+      params: {
+        with_genres: genreId,
+        page,
+        language: "en-US",
+        sort_by: sortBy,
+        include_adult: false,
+        "vote_count.gte": minVoteCount,
+        ...(minVoteAverage && { "vote_average.gte": minVoteAverage }),
+        ...(releaseDateGte && { "primary_release_date.gte": releaseDateGte }),
+        ...(releaseDateLte && { "primary_release_date.lte": releaseDateLte }),
+        ...(withOriginalLanguage && {
+          with_original_language: withOriginalLanguage,
+        }),
+      },
+    });
+
+    if (!res.data.results) {
+      throw new Error("Invalid response format from TMDB API");
+    }
+
+    return res.data.results as Movies[];
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("TMDB API error discovering movies by genre:", {
+        genreId,
+        status: error.response?.status,
+        message: error.response?.data?.status_message,
+      });
+      throw new Error(
+        `Failed to discover movies: ${
+          error.response?.data?.status_message || error.message
+        }`
+      );
+    }
+    console.error("Error discovering movies by genre:", error);
+    throw new Error("Failed to discover movies by genre");
+  }
+}
+
+export async function discoverTvByGenre(
+  genreId: string,
+  options: DiscoverOptions = {}
+): Promise<TvShows[]> {
+  try {
+    const {
+      page = 1,
+      sortBy = "popularity.desc",
+      minVoteCount = 100,
+      minVoteAverage,
+      releaseDateGte,
+      releaseDateLte,
+      withOriginalLanguage,
+    } = options;
+
+    const res = await tmdbApi.get(picksEndpoints.discoverTv, {
+      params: {
+        with_genres: genreId,
+        page,
+        language: "en-US",
+        sort_by: sortBy,
+        include_adult: false,
+        "vote_count.gte": minVoteCount,
+        ...(minVoteAverage && { "vote_average.gte": minVoteAverage }),
+        ...(releaseDateGte && { "first_air_date.gte": releaseDateGte }),
+        ...(releaseDateLte && { "first_air_date.lte": releaseDateLte }),
+        ...(withOriginalLanguage && {
+          with_original_language: withOriginalLanguage,
+        }),
+      },
+    });
+
+    if (!res.data.results) {
+      throw new Error("Invalid response format from TMDB API");
+    }
+
+    return res.data.results as TvShows[];
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("TMDB API error discovering TV shows by genre:", {
+        genreId,
+        status: error.response?.status,
+        message: error.response?.data?.status_message,
+      });
+      throw new Error(
+        `Failed to discover TV shows: ${
+          error.response?.data?.status_message || error.message
+        }`
+      );
+    }
+    console.error("Error discovering TV shows by genre:", error);
+    throw new Error("Failed to discover TV shows by genre");
+  }
+}
+
+// Improved genre name functions using static mappings
+export function getMovieGenreName(genreId: number | string): string {
+  const genreIdNum =
+    typeof genreId === "string" ? Number.parseInt(genreId, 10) : genreId;
+  return MOVIE_GENRES[genreIdNum] || "Unknown Genre";
+}
+
+export function getTvGenreName(genreId: number | string): string {
+  const genreIdNum =
+    typeof genreId === "string" ? Number.parseInt(genreId, 10) : genreId;
+  return TV_GENRES[genreIdNum] || "Unknown Genre";
+}
+
+// Generic function that works for both movies and TV shows
+export function getGenreName(
+  genreId: number | string,
+  mediaType: "movie" | "tv" = "movie"
+): string {
+  if (mediaType === "tv") {
+    return getTvGenreName(genreId);
+  }
+  return getMovieGenreName(genreId);
+}
+
+// Alternative function that tries to determine media type automatically
+export function getGenreNameSmart(genreId: number | string): string {
+  const genreIdNum =
+    typeof genreId === "string" ? Number.parseInt(genreId, 10) : genreId;
+
+  // Check if it exists in movie genres first
+  if (MOVIE_GENRES[genreIdNum]) {
+    return MOVIE_GENRES[genreIdNum];
+  }
+
+  // Then check TV genres
+  if (TV_GENRES[genreIdNum]) {
+    return TV_GENRES[genreIdNum];
+  }
+
+  return "Unknown Genre";
+}
+
+// Function to get all available movie genres
+export function getAllMovieGenres(): Array<{ id: number; name: string }> {
+  return Object.entries(MOVIE_GENRES).map(([id, name]) => ({
+    id: Number.parseInt(id, 10),
+    name,
+  }));
+}
+
+// Function to get all available TV genres
+export function getAllTvGenres(): Array<{ id: number; name: string }> {
+  return Object.entries(TV_GENRES).map(([id, name]) => ({
+    id: Number.parseInt(id, 10),
+    name,
+  }));
 }

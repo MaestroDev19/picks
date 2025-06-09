@@ -4,11 +4,19 @@ export interface BaseMediaItem {
   poster_path?: string | null;
   backdrop_path?: string | null;
   vote_average: number;
+  vote_count: number;
   overview: string;
   popularity: number;
   homepage?: string;
   status: string;
-  genres: { id: string; name: string }[];
+  genres: { id: number; name: string }[];
+  original_language: string;
+  tagline?: string;
+  production_companies: {
+    id: number;
+    name: string;
+    logo_path: string | null;
+  }[];
 }
 
 export interface Movies extends BaseMediaItem {
@@ -16,6 +24,13 @@ export interface Movies extends BaseMediaItem {
   adult: "true" | "false";
   runtime: number;
   release_date: string;
+  budget: number;
+  revenue: number;
+  spoken_languages: { english_name: string }[];
+  belongs_to_collection?: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface TvShows extends BaseMediaItem {
@@ -25,7 +40,20 @@ export interface TvShows extends BaseMediaItem {
   last_air_date: string;
   number_of_episodes: number;
   number_of_seasons: number;
-  networks: { id: number; name: string; logo_path: string | null }[];
+  episode_run_time: number[];
+  in_production: boolean;
+  languages: string[];
+  networks: {
+    id: number;
+    name: string;
+    logo_path: string | null;
+    origin_country: string;
+  }[];
+  next_episode_to_air?: {
+    air_date: string;
+    episode_number: number;
+    season_number: number;
+  };
 }
 
 export interface Trailer {
@@ -77,6 +105,15 @@ export interface Trending extends BaseMediaItem {
 
 export interface TrendingDetails extends Trending {}
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface GenreResponse {
+  genres: Genre[];
+}
+
 /**
  * Interface defining all API endpoints used in the application
  */
@@ -90,6 +127,10 @@ export interface Endpoints {
   discoverTv: string;
   ratedTv: string; // top rated TV shows
   today: string; // TV shows airing today
+
+  // Genre endpoints
+  movieGenres: string;
+  tvGenres: string;
 
   // Trending
   trending: string;

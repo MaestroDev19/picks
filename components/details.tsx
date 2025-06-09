@@ -101,6 +101,9 @@ export function Details({ item }: DetailsProps) {
               <span className="text-base font-medium">
                 {convertToDecimal(item.vote_average)}
               </span>
+              <span className="text-sm text-gray-400">
+                ({item.vote_count.toLocaleString()} votes)
+              </span>
             </div>
             <div className="flex items-center gap-2">
               {"runtime" in item && (
@@ -113,10 +116,12 @@ export function Details({ item }: DetailsProps) {
                 <>
                   <Tv className="w-5 h-5 text-gray-400" />
                   <span className="text-base">{getDuration()}</span>
-
                   <span className="text-base">
                     {item.number_of_episodes} Episodes
                   </span>
+                  {item.in_production && (
+                    <Badge variant="secondary">In Production</Badge>
+                  )}
                 </>
               )}
             </div>
@@ -127,6 +132,11 @@ export function Details({ item }: DetailsProps) {
               </div>
             )}
           </div>
+
+          {/* Tagline if available */}
+          {item.tagline && (
+            <p className="text-xl italic text-gray-400">{item.tagline}</p>
+          )}
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4">
@@ -157,25 +167,84 @@ export function Details({ item }: DetailsProps) {
                 <h3 className="font-medium text-gray-400">Status</h3>
                 <p className="mt-1 text-lg">{item.status}</p>
               </div>
-              {item.homepage && (
+
+              {"budget" in item && item.budget > 0 && (
                 <div>
-                  <h3 className="font-medium text-gray-400">Website</h3>
-                  <a
-                    href={item.homepage}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-1 text-lg text-primary hover:underline"
-                  >
-                    Visit Website
-                  </a>
+                  <h3 className="font-medium text-gray-400">Budget</h3>
+                  <p className="mt-1 text-lg">
+                    ${item.budget.toLocaleString()}
+                  </p>
                 </div>
               )}
+
+              {"revenue" in item && item.revenue > 0 && (
+                <div>
+                  <h3 className="font-medium text-gray-400">Box Office</h3>
+                  <p className="mt-1 text-lg">
+                    ${item.revenue.toLocaleString()}
+                  </p>
+                </div>
+              )}
+
+              {"belongs_to_collection" in item &&
+                item.belongs_to_collection && (
+                  <div>
+                    <h3 className="font-medium text-gray-400">Collection</h3>
+                    <p className="mt-1 text-lg">
+                      {item.belongs_to_collection.name}
+                    </p>
+                  </div>
+                )}
+
+              {"next_episode_to_air" in item && item.next_episode_to_air && (
+                <div>
+                  <h3 className="font-medium text-gray-400">Next Episode</h3>
+                  <p className="mt-1 text-lg">
+                    S{item.next_episode_to_air.season_number} E
+                    {item.next_episode_to_air.episode_number}
+                    <br />
+                    <span className="text-sm text-gray-400">
+                      {new Date(
+                        item.next_episode_to_air.air_date
+                      ).toLocaleDateString()}
+                    </span>
+                  </p>
+                </div>
+              )}
+
               <div>
-                <h3 className="font-medium text-gray-400">Popularity</h3>
+                <h3 className="font-medium text-gray-400">Languages</h3>
                 <p className="mt-1 text-lg">
-                  {convertToDecimal(item.popularity)}
+                  {"spoken_languages" in item
+                    ? item.spoken_languages
+                        .map((lang) => lang.english_name)
+                        .join(", ")
+                    : item.languages.join(", ")}
                 </p>
               </div>
+
+              {item.production_companies.length > 0 && (
+                <div>
+                  <h3 className="font-medium text-gray-400">Production</h3>
+                  <div className="mt-1 flex flex-wrap gap-2">
+                    {item.production_companies.map((company) =>
+                      company.logo_path ? (
+                        <img
+                          key={company.id}
+                          src={`${process.env.NEXT_PUBLIC_TMDB_IMAGE}${company.logo_path}`}
+                          alt={company.name}
+                          className="h-6 object-contain"
+                          title={company.name}
+                        />
+                      ) : (
+                        <span key={company.id} className="text-lg">
+                          {company.name}
+                        </span>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* TV Show specific information */}
               {"networks" in item && item.networks.length > 0 && (
@@ -191,6 +260,9 @@ export function Details({ item }: DetailsProps) {
                     ) : (
                       <span className="text-lg">{item.networks[0].name}</span>
                     )}
+                    <span className="text-sm text-gray-400">
+                      ({item.networks[0].origin_country})
+                    </span>
                   </div>
                 </div>
               )}
